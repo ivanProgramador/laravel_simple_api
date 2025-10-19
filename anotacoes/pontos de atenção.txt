@@ -1,0 +1,78 @@
+Um problema de fornecer uma rota onde eu posso consultar uma cliente com id 
+é que isso possibilita um get para pessoas não autorizadas.Uma forma de resolver 
+seria requisitar essa rota com um post
+
+no caso a rota seria dessa forma 
+
+Route::post('/client', [ApiController::class, 'client']);
+
+dessa forma quando esse cliente fosse requisitado o id teria de ser
+passado no corpo da requisicição dessa forma
+
+{
+	"id":1
+}
+
+quando a requisição fosse feita ia passar por esse método,
+que busca pelo is dentro da requisição.
+
+se tiver ele devolve o json
+
+
+   return response()->json(
+            [
+            'status' => 'ok',
+            'message'=>'api funcionando',
+            'status_code'=>200,
+            'data'=>$cliente
+            ],200
+        );
+
+se naão tiver ele devolve o json com response negativa
+
+  return response()->json(
+                [
+                'status' => 'error',
+                'message'=>'id do cliente é obrigatório',
+                'status_code'=>400
+                ],400
+            );
+
+
+
+------------------------------------------------------------------------
+
+
+
+aplicando na rota 3 
+ http://127.0.0.1:8000/api/client/
+------------------------------------------------------------------------------
+public function client(Request $request){
+
+        //verificando se o id veio na requisição
+        
+        if(!$request->id){
+            return response()->json(
+                [
+                'status' => 'error',
+                'message'=>'id do cliente é obrigatório',
+                'status_code'=>400
+                ],400
+            );
+        }
+
+        $cliente = Client::find($request->id);
+
+         return response()->json(
+            [
+            'status' => 'ok',
+            'message'=>'api funcionando',
+            'status_code'=>200,
+            'data'=>$cliente
+            ],200
+        );
+
+    }
+---------------------------------------------------------------------
+ou seja quem está pedindo os dados sabe que tem que ter um id no corpo 
+da requisição e sabe para qual rota e como esse id deve ser enviado  
