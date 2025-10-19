@@ -1,0 +1,3 @@
+A feraamnto que ser ausada pra executar os teste de reuisição se chama thunder 
+client, ela é uma extenção do vscode , mas eu achei mais pratioco usar ela doque 
+instalar um sistema externo

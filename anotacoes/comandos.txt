@@ -1,0 +1,8 @@
+php artisan make:migration create_clients_table 
+php artisan migrate 
+php artisan make:model Client 
+php artisan make:factory ClientFactory 
+php artisan make:seed ClientSeed 
+php artisan db:seed --class=ClientSeeder
+
+

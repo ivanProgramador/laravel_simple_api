@@ -1,0 +1,84 @@
+A base de dados foi criada mas eu vou adicionar
+100 clientes para que possa fazer as operações 
+depois de criar o model com a diretiva 
+use "use HasFactory"
+
+--------------------------------------------------------
+
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class Client extends Model
+{
+    use HasFactory;
+}
+
+
+---------------------------------------------------------
+
+eu crio uma Factory para esse model 
+
+php artisan make:factory ClientFactory  
+
+Esse comando vai gerar uma arquivo dentro da pasta "database/factories"
+dentro desse aruivo existem uma função que retorna um array que define o padrão 
+dos dados que serãm gerados qquando essa funcção for chamada  
+
+ public function definition(): array
+    {
+        return [
+            'name'=>'',
+            'email'=>''
+        ];
+    }
+-----------------------------------------------------------------------------------------
+a biblioteca Faker(nativa do laravel ) vai gerar os dados aleatórios 
+
+-----------------------------------------------------------------------------
+public function definition(): array
+    {
+        return [
+            'name'=>$this->faker->name,
+            'email'=>$this->faker->unique->safeEmail
+        ];
+    }
+
+-----------------------------------------------------------------------
+
+depois de configurar a factory e o faker agora tenho que criar o seed 
+
+php artisan make:seed ClientSeed 
+
+O responsavel por executar o seed é o metodo run então dentro del eu coloco essa linha 
+
+ Client::factory()->count(100)->create();
+
+que segue esse caminho
+1 - pega o model Client que eu disse que usa uma factory então do model Client ele busca uma factory 
+2 - chegando na factory  ele encontra o padrão de dados que seram gerados, e aciona o faker 
+3 - depois ele volta pro seed multiplica os dados por 100 que esta na funcção count 
+4 - cria os dados 
+
+-----------------------------------------------------------------------------
+class ClientSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        Client::factory()->count(100)->create();
+    }
+}
+-------------------------------------------------------------------------------
+Executando a seed 
+
+php artisan db:seed --class=ClientSeeder
+
+isso gerou 100 cadastros de clientes na base de dados 
+
+

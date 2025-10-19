@@ -1,0 +1,1 @@
+A api que vai ser criada vai controlar uma base dedados de clientes qque vão ter nome e email  
