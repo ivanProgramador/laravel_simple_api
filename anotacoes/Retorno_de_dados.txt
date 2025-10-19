@@ -1,0 +1,76 @@
+Na maioria das vezes uma apia vai retornar um Json como resposta 
+as requisições no caso eu tenho duas rotas até aqui e acda um aciona um metodo
+detro do ApiController até aqui não tem muita difeença do compostamento normal de um metodo.   
+
+Route::get('/status', [ApiController::class, 'status']);
+Route::get('/clients', [ApiController::class, 'clients']);
+
+Dentro do controller muda um pouco na parte do retorno, ao ives de receber uma view 
+o usuario recebe um json, no primeiro caso eleusa a funcão 
+"response()" que possui o metodo "json()" que recebe um array então o meu retorno 
+será dado em chave valor 
+
+return response()->json([
+            'status' => 'ok',
+            'message'=>'api funcionando',
+            'status_code'=>200
+            ]
+);
+
+Então toda a infomação que eu precisar passar nesse caso vai ocupar uma indice desse array,
+que será trasformado em um json e depois transmitido pela rota  
+
+
+Aplicando isso na rota 1 
+ http://127.0.0.1:8000/api/status
+--------------------------------------------------------------------------------
+ public function status(){
+        
+        //devolvendo json com o status da api 
+
+        return response()->json([
+            'status' => 'ok',
+            'message'=>'api funcionando',
+            'status_code'=>200
+            ]
+        );
+
+    }
+---------------------------------------------------------------------------
+
+No caso da rota 2 a situação se repete porém com uma diferença, eu faço uma consulta
+na base de dados pra trazer os clientes cadastrados 
+
+ $clientes = Client::all();
+
+agora como foi dito entes eu uso um dos indices do arrray json para enviar esses dados
+os clientes vão dentro do indice data.  
+
+  return response()->json(
+            [
+            'status' => 'ok',
+            'message'=>'api funcionando',
+            'status_code'=>200,
+            'data'=>$clientes
+            ],200
+            
+);
+
+Aplicando na rota 2 
+ http://127.0.0.1:8000/api/clients
+--------------------------------------------------------------------------------
+ public function clients(){
+
+        $clientes = Client::all();
+
+         return response()->json(
+            [
+            'status' => 'ok',
+            'message'=>'api funcionando',
+            'status_code'=>200,
+            'data'=>$clientes
+            ],200
+        );
+    }
+
+-------------------------------------------------------------------------------- 

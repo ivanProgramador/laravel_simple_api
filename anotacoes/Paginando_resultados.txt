@@ -1,0 +1,206 @@
+Um api também permite paginar dados parara o caso de apis qque retornan
+uma auqntidade consideravel de dados e o apliactivo dio cliente não possa 
+ou não seja feito parara mostrara tudo em uma tela só.
+
+
+Usando como exemplo a minha rota 2 que devolve 100 clientes no caso 
+a consulta é paginada antes de ser enviada ao json, aqui eu digo que 
+eu quero trazer todos os clientes, mas eu so quero 10 registrops por 
+pagina.  
+
+$clientes = Client::paginate(10);
+
+quando eu faço isso os sistema de retorno sabe que fiz a paginação eo 
+retorno muda ao inves de enviar os 100 clinete como resposta ele manda 
+só 10 por requisição. 
+
+nisso o data ja recebe novos atributos pra ajudar o cliente a nevegar nesses 
+dados o atributo é o "current_page": 1" que indica que ele esta na pagina 1 
+
+
+
+"data": {
+		"current_page": 1,
+		"data": [
+			{
+			}
+        ]
+}
+
+NAVEGAÇÃO 
+
+  Logo abaixo da massa de dados ele mostra como fazer pra navegar para as demais paginas,
+nesse caso ele mostra como o cliente deve reuisitar pra ir para pagina 1 no tributo "url" 
+
+{   "url": "http://127.0.0.1:8000/api/clients?page=1",
+    "label": "1",
+	"page": 1,
+    "active": true
+}
+
+e também tem objetos que avisam quantos dados existem no total 
+	
+    {
+        "next_page_url": "http://127.0.0.1:8000/api/clients?page=2",
+		"path": "http://127.0.0.1:8000/api/clients",
+		"per_page": 10,
+		"prev_page_url": null,
+		"to": 10,
+		"total": 100
+	}
+
+
+
+Vou paginar 2 dados para mostrar o retorno completo assim da pra ver o retorno 
+que deve ser recebido ao fazer uma requisição para a rota 2 
+
+http://127.0.0.1:8000/api/clients
+-----------------------------------------------------------------------------------
+
+{
+	"status": "ok",
+	"message": "api funcionando",
+	"status_code": 200,
+	"data": {
+		"current_page": 1,
+		"data": [
+			{
+				"id": 1,
+				"name": "Dolores Hodkiewicz III",
+				"email": "tkris@example.org",
+				"created_at": "2025-10-19T15:16:11.000000Z",
+				"updated_at": "2025-10-19T15:16:11.000000Z"
+			},
+			{
+				"id": 2,
+				"name": "Edd Marquardt",
+				"email": "rkoss@example.org",
+				"created_at": "2025-10-19T15:16:11.000000Z",
+				"updated_at": "2025-10-19T15:16:11.000000Z"
+			}
+		],
+		"first_page_url": "http://127.0.0.1:8000/api/clients?page=1",
+		"from": 1,
+		"last_page": 50,
+		"last_page_url": "http://127.0.0.1:8000/api/clients?page=50",
+		"links": [
+			{
+				"url": null,
+				"label": "&laquo; Previous",
+				"page": null,
+				"active": false
+			},
+			{
+				"url": "http://127.0.0.1:8000/api/clients?page=1",
+				"label": "1",
+				"page": 1,
+				"active": true
+			},
+			{
+				"url": "http://127.0.0.1:8000/api/clients?page=2",
+				"label": "2",
+				"page": 2,
+				"active": false
+			},
+			{
+				"url": "http://127.0.0.1:8000/api/clients?page=3",
+				"label": "3",
+				"page": 3,
+				"active": false
+			},
+			{
+				"url": "http://127.0.0.1:8000/api/clients?page=4",
+				"label": "4",
+				"page": 4,
+				"active": false
+			},
+			{
+				"url": "http://127.0.0.1:8000/api/clients?page=5",
+				"label": "5",
+				"page": 5,
+				"active": false
+			},
+			{
+				"url": "http://127.0.0.1:8000/api/clients?page=6",
+				"label": "6",
+				"page": 6,
+				"active": false
+			},
+			{
+				"url": "http://127.0.0.1:8000/api/clients?page=7",
+				"label": "7",
+				"page": 7,
+				"active": false
+			},
+			{
+				"url": "http://127.0.0.1:8000/api/clients?page=8",
+				"label": "8",
+				"page": 8,
+				"active": false
+			},
+			{
+				"url": "http://127.0.0.1:8000/api/clients?page=9",
+				"label": "9",
+				"page": 9,
+				"active": false
+			},
+			{
+				"url": "http://127.0.0.1:8000/api/clients?page=10",
+				"label": "10",
+				"page": 10,
+				"active": false
+			},
+			{
+				"url": null,
+				"label": "...",
+				"active": false
+			},
+			{
+				"url": "http://127.0.0.1:8000/api/clients?page=49",
+				"label": "49",
+				"page": 49,
+				"active": false
+			},
+			{
+				"url": "http://127.0.0.1:8000/api/clients?page=50",
+				"label": "50",
+				"page": 50,
+				"active": false
+			},
+			{
+				"url": "http://127.0.0.1:8000/api/clients?page=2",
+				"label": "Next &raquo;",
+				"page": 2,
+				"active": false
+			}
+		],
+		"next_page_url": "http://127.0.0.1:8000/api/clients?page=2",
+		"path": "http://127.0.0.1:8000/api/clients",
+		"per_page": 2,
+		"prev_page_url": null,
+		"to": 2,
+		"total": 100
+	}
+}
+
+
+-----------------------------------------------------------------------------------
+
+
+Rota com retorno paginado 
+
+------------------------------------------------------------
+public function clients(){
+
+        $clientes = Client::paginate(2);
+
+         return response()->json(
+            [
+            'status' => 'ok',
+            'message'=>'api funcionando',
+            'status_code'=>200,
+            'data'=>$clientes
+            ],200
+        );
+}
+---------------------------------------------------
