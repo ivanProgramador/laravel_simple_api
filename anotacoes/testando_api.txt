@@ -1,0 +1,16 @@
+Para testar se a rota que eu criri esta funcionando eue sei a segunte url,
+para acessar a pagina inical do laravel normalmente se usa a pasta public 
+que seria opa endereço padrão que aciona as rotas, mas eu usei o api/status 
+porque foi esse o aruivo que configurei no inicializador.  
+
+ http://127.0.0.1:8000/api/status
+
+ como esperado ele devolve o retorno 
+
+ status: ok
+
+ Collections 
+   em sisatema de teste de api sera uma grupo de requisições padrão pre-definidas para uma api especifica ou 
+   pra varias. No thunder client ver~sao gratuita Collections não são suportadas então eu vou usar o insominia
+    
+ 

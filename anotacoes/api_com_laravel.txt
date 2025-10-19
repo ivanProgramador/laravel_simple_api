@@ -1,0 +1,51 @@
+Na documentão tem um comando 
+
+  php artisan install:api 
+
+A ideia desse comando a trazer uma serie de pacotes para criar uma api 
+porém ele tambem traz o sanctun que é m sistema de autenticação que eu não vou 
+usar agora então essa api vai ser criada de forma "manual" 
+
+1 - dentro da pasta routes fiz uma copia do arquivo web.php e mudei o nome para api.php 
+2 - estabeleci uma rota que mostra um texto dentro do api.php 
+    ------------------------------------------------------------------
+    Route::get('/status', function () {
+    return "status: ok";
+    });
+    ---------------------------------------------------------------------
+3 - entrei na pasta "Bootsrap" (Não se trata da bilioteca que esta na pasta assets) 
+    e sim da pasta Bootsrap que está na raiz que contem os arquivos de inicialização 
+    do Laravel.
+
+    Lá tem arquivo chamado "app.php" entro dele tem alguma configurações que dizem 
+    para o laravel qual é o nosso arquivo web é assim que ele sabe como achar as rotas
+
+     "web: __DIR__.'/../routes/web.php" 
+
+     Eu vou duplicar essa linha 
+
+      web: __DIR__.'/../routes/web.php'
+
+      e fazer uma para o meu arquivo "api.php" avisano que se trata de uma api 
+
+        api: __DIR__.'/../routes/api.php'
+
+                Aplicando 
+                --------------------------------------------------------------------------------------
+                        return Application::configure(basePath: dirname(__DIR__))
+                        ->withRouting(
+                        web: __DIR__.'/../routes/web.php',
+MINHA CONFIGURACAO ==> api: __DIR__.'/../routes/api.php',
+                        commands: __DIR__.'/../routes/console.php',
+                        health: '/up',
+                    )
+            ->withMiddleware(function (Middleware $middleware): void {
+                //
+            })
+            ->withExceptions(function (Exceptions $exceptions): void {
+                //
+            })->create();
+------------------------------------------------------------------------------
+
+Agora as rotas vão ser reconhecidas pelo laravel 
+
