@@ -83,5 +83,26 @@ class ApiController extends Controller
 
     }
 
+    public function addClient(Request $request){
+        
+       //para gravar um cliente novo 
+       //o processo eo mesmo do eloquent 
+       //mas no caso de uma api eu tenho que visar que deu certo 
+        
+        $client = new Client();
+        $client->name = $request->name;
+        $client->email = $request->email;
+        $client->save();
+
+         return response()->json(
+            [
+            'status' => 'ok',
+            'message'=>'Cliente adicionado com sucesso',
+            'data'=>$client,
+            ],201
+        );
+
+    }
+
     
 }
