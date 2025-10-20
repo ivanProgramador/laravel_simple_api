@@ -142,6 +142,42 @@ class ApiController extends Controller
 
 
     }
+    
+
+    //para cionar esse metodo eu vou usar query params 
+    //na requisição traves do insomnia
+
+    public function deleteClient(Request $request)
+    {
+         //verificando se o id veio na requisição
+        if(!$request->id){
+            return response()->json(
+                [
+                'status' => 'error',
+                'message'=>'id do cliente é obrigatório',
+                'status_code'=>400
+                ],400
+            );
+         }else{
+
+
+            $client = Client::find($request->id);
+            $client->delete();
+
+            return response()->json(
+              [
+                'status' => 'ok',
+                 'message'=>'Cliente deletado com sucesso',
+              ],201
+           );
+         }
+
+        
+
+
+
+
+    }
 
     
 
